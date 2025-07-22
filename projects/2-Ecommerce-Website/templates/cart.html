@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Your Cart</h2>
+{% if cart %}
+<table class="table table-bordered">
+  <thead>
+    <tr><th>Product</th><th>Price</th></tr>
+  </thead>
+  <tbody>
+  {% for item in cart %}
+    <tr>
+      <td>{{ item.title }}</td>
+      <td>₹{{ item.price }}</td>
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>
+<p><strong>Total: ₹{{ total }}</strong></p>
+<a href="{{ url_for('checkout') }}" class="btn btn-success">Checkout</a>
+{% else %}
+<p>No items in cart.</p>
+{% endif %}
+{% endblock %}

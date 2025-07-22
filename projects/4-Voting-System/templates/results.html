@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Poll Results</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.socket.io/4.0.0/socket.io.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body class="bg-gray-100 p-6">
+<div class="max-w-2xl mx-auto bg-white p-6 rounded shadow">
+  <h1 class="text-xl font-bold mb-2">📊 Poll Results</h1>
+  <p class="text-gray-700 mb-3">Poll ID: {{ poll_id }}</p>
+
+  <canvas id="barChart" class="mb-4"></canvas>
+  <canvas id="pieChart"></canvas>
+</div>
+
+<script>
+const poll_id="{{ poll_id }}";
+const socket=io();
+
+let barChart,pieChart;
+
+function renderCharts(data){
+  const options=Object.keys(data.options);
+  const votes=Object.values(data.options);
+  const colors=["#3b82f6","#10b981","#f97316","#ef4444","#8b5cf6","#facc15"];
+
+  if(barChart) barChart.destroy();
+  barChart=new Chart(document.getElementById("barChart"),{
+    type:"bar",
+    data:{labels:options,
+      datasets:[{label:"Votes",data:votes,backgroundColor:colors}]
+    }
+  });
+
+  if(pieChart) pieChart.destroy();
+  pieChart=new Chart(document.getElementById("pieChart"),{
+    type:"pie",
+    data:{labels:["Male","Female","Other"],
+      datasets:[{data:[data.gender.Male,data.gender.Female,data.gender.Other],
+                 backgroundColor:["#3b82f6","#ec4899","#f59e0b"]}]
+    }
+  });
+}
+
+socket.emit("join",{poll_id});
+socket.on("update_results",data=>renderCharts(data));
+
+fetch(`/api/results/${poll_id}`).then(r=>r.json()).then(d=>renderCharts(d));
+</script>
+</body>
+</html>

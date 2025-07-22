@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Admin Dashboard</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 p-6">
+<div class="max-w-5xl mx-auto">
+  <h1 class="text-2xl font-bold mb-4">📊 Admin Dashboard</h1>
+  <a href="/create_poll" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 inline-block mb-4">➕ Create New Poll</a>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+    {% for p in polls %}
+    <div class="bg-white p-4 rounded shadow">
+      <h3 class="font-bold text-lg">{{ p[1] }}</h3>
+      <p class="text-sm text-gray-600">{{ p[2][:60] }}...</p>
+      <p class="text-xs text-gray-500 mt-1">
+  Status:
+  {% if "Ended" in p[8] %}
+    ✅ Ended
+  {% else %}
+    ⏳ Active ({{ p[8] }} left)
+  {% endif %}
+</p>
+
+      <p class="text-xs text-gray-500">Poll ID: <b>{{ p[0] }}</b></p>
+      <a href="/admin/{{ p[0] }}" class="mt-2 inline-block bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600">View Details</a>
+      <a href="/results/{{ p[0] }}" class="flex-1 text-center bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600">
+    📊 View Results
+  </a>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+</body>
+</html>

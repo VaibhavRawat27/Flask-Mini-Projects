@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Create Poll</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 p-6">
+<div class="max-w-lg mx-auto bg-white p-6 rounded shadow">
+  <h1 class="text-xl font-bold mb-4">➕ Create New Poll</h1>
+  <form method="POST" enctype="multipart/form-data">
+    <label class="block mb-1">Title</label>
+    <input name="title" required class="border p-2 w-full mb-2 rounded">
+
+    <label class="block mb-1">Description</label>
+    <textarea name="description" class="border p-2 w-full mb-2 rounded"></textarea>
+
+    <label class="block mb-1">Upload Image</label>
+    <input type="file" name="image" class="mb-2">
+
+    <label class="block mb-1">Image Caption</label>
+    <input name="image_caption" class="border p-2 w-full mb-2 rounded">
+
+    <label class="block mb-1">Options (Add Multiple)</label>
+    <div id="options" class="mb-2">
+      <input name="options[]" class="border p-2 w-full mb-1 rounded">
+    </div>
+    <button type="button" onclick="addOption()" class="text-blue-500 text-sm mb-2">➕ Add Another Option</button>
+
+    <label class="block mb-1">Poll Duration (Hours)</label>
+    <input type="number" name="hours" value="24" class="border p-2 w-full mb-2 rounded">
+
+    <button class="bg-blue-500 text-white px-4 py-2 rounded w-full">Create Poll</button>
+  </form>
+</div>
+
+<script>
+function addOption(){
+  document.getElementById("options").innerHTML+=
+    '<input name="options[]" class="border p-2 w-full mb-1 rounded">';
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Admin Panel</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 p-6">
+<div class="max-w-4xl mx-auto bg-white p-6 rounded shadow">
+  <h1 class="text-xl font-bold mb-4">🛠️ Admin Panel – Poll ID: {{ poll_id }}</h1>
+  <table class="w-full border">
+    <thead>
+      <tr class="bg-gray-200">
+        <th class="p-2 border">Name</th>
+        <th class="p-2 border">Gender</th>
+        <th class="p-2 border">Email</th>
+        <th class="p-2 border">Phone</th>
+        <th class="p-2 border">Location</th>
+        <th class="p-2 border">Option</th>
+        <th class="p-2 border">Photo</th>
+        <th class="p-2 border">Time</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for v in votes %}
+      <tr class="text-sm">
+        <td class="p-2 border">{{ v[2] }}</td>
+        <td class="p-2 border">{{ v[3] }}</td>
+        <td class="p-2 border">{{ v[4] }}</td>
+        <td class="p-2 border">{{ v[5] }}</td>
+        <td class="p-2 border">{{ v[6] }}</td>
+        <td class="p-2 border font-semibold">{{ v[7] }}</td>
+        <td class="p-2 border">
+          <img src="/static/user_photos/{{ v[8] }}" class="w-12 h-12 rounded">
+        </td>
+        <td class="p-2 border text-gray-500">{{ v[9] }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+</body>
+</html>

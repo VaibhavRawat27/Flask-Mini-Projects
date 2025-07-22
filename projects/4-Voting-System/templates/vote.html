@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Cast Your Vote</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 p-6">
+<div class="max-w-lg mx-auto bg-white p-6 rounded shadow">
+  <h1 class="text-xl font-bold mb-2">{{ poll[1] }}</h1>
+  <p class="text-gray-700 mb-1">{{ poll[2] }}</p>
+  <p class="text-sm text-gray-500 mb-3">⏳ Time Left: {{ time_left }}</p>
+
+  {% if poll[3] %}
+    <img src="/static/uploads/{{ poll[3] }}" class="max-w-full rounded mb-1">
+    <p class="text-sm text-gray-500">{{ poll[4] }}</p>
+  {% endif %}
+
+  <form method="POST" onsubmit="return confirmVote()">
+    <input type="hidden" name="photo" id="photoInput">
+    <label class="block mt-2">Name</label>
+    <input name="name" required class="border p-2 w-full rounded mb-2">
+
+    <label class="block">Gender</label>
+    <select name="gender" class="border p-2 w-full rounded mb-2">
+      <option>Male</option><option>Female</option><option>Other</option>
+    </select>
+
+    <label class="block">Email</label>
+    <input type="email" name="email" required class="border p-2 w-full rounded mb-2">
+
+    <label class="block">Phone</label>
+    <input name="phone" required class="border p-2 w-full rounded mb-2">
+
+    <label class="block">Location</label>
+    <input name="location" required class="border p-2 w-full rounded mb-2">
+
+    <label class="block">Choose Your Option</label>
+    {% for opt in poll[5].split('|') %}
+      <div class="mb-1"><input type="radio" name="option" value="{{ opt }}" required> {{ opt }}</div>
+    {% endfor %}
+
+    <div class="mt-3">
+      <p class="text-sm text-gray-600 mb-1">📸 Capture your photo (required)</p>
+      <video id="camera" autoplay class="w-full rounded border mb-2"></video>
+      <canvas id="canvas" class="hidden"></canvas>
+      <button type="button" onclick="takePhoto()" class="bg-yellow-500 text-white px-3 py-1 rounded hover:bg-yellow-600">
+        📷 Take Photo
+      </button>
+    </div>
+
+    <button class="bg-green-500 text-white w-full py-2 mt-4 rounded hover:bg-green-600">✅ Cast Vote</button>
+  </form>
+</div>
+
+<script>
+let video=document.getElementById("camera");
+navigator.mediaDevices.getUserMedia({video:true}).then(s=>{video.srcObject=s});
+
+function takePhoto(){
+  let canvas=document.getElementById("canvas");
+  canvas.width=video.videoWidth;
+  canvas.height=video.videoHeight;
+  canvas.getContext("2d").drawImage(video,0,0);
+  document.getElementById("photoInput").value=canvas.toDataURL("image/png");
+  alert("✅ Photo captured successfully!");
+}
+
+function confirmVote(){
+  if(!document.getElementById("photoInput").value){
+    alert("Please capture your photo before submitting.");
+    return false;
+  }
+  return confirm("Are you sure you want to submit your vote?");
+}
+</script>
+</body>
+</html>

@@ -45,7 +45,7 @@ Flask-Mini-Projects/
 
 ### **1️⃣ Clone the Repository**
 ```bash
-git clone https://github.com/YourUsername/Flask-Mini-Projects.git
+git clone https://github.com/vaibhavrawat27/Flask-Mini-Projects.git
 cd Flask-Mini-Projects
 ```
 

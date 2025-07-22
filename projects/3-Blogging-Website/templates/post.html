@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>{{ post.title }}</h2>
+<p><small>{{ post.timestamp.strftime("%d %B %Y, %I:%M %p") }}</small></p>
+<div class="mb-4">{{ post.content|safe }}</div>
+
+<h5>Comments</h5>
+<form method="POST">
+    <textarea name="comment" class="form-control" placeholder="Write a comment..." required></textarea><br>
+    <button class="btn btn-primary">Post Comment</button>
+</form>
+<hr>
+{% for c in comments %}
+<div class="mb-2">
+    <strong>Guest:</strong> {{ c.content }}<br>
+    <small class="text-muted">{{ c.timestamp.strftime("%d %B %Y, %I:%M %p") }}</small>
+</div>
+{% endfor %}
+{% endblock %}

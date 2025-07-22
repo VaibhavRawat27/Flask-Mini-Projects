@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block content %}
+<h3>Admin Dashboard</h3>
+<a class="btn btn-primary mb-3" href="{{ url_for('create_post') }}">+ New Post</a>
+<table class="table table-bordered">
+    <tr><th>Title</th><th>Status</th><th>Actions</th></tr>
+    {% for post in posts %}
+    <tr>
+        <td>{{ post.title }}</td>
+        <td>{{ 'Published' if post.is_published else 'Draft/Scheduled' }}</td>
+        <td>
+            <a class="btn btn-danger btn-sm" href="{{ url_for('delete_post', post_id=post.id) }}">Delete</a>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}

@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block content %}
+<h3>Create Post</h3>
+<form method="POST">
+    <input type="text" name="title" class="form-control mb-2" placeholder="Title" required>
+    <input type="text" name="summary" class="form-control mb-2" placeholder="Short Summary" required>
+    <textarea name="content" id="editor" class="form-control mb-2" placeholder="Write blog..."></textarea>
+    <input type="datetime-local" name="scheduled_time" class="form-control mb-2">
+    <div class="form-check mb-2">
+        <input type="checkbox" class="form-check-input" name="publish_now" id="publish_now">
+        <label for="publish_now">Publish Now</label>
+    </div>
+    <button class="btn btn-success">Save</button>
+</form>
+<script>CKEDITOR.replace('editor');</script>
+{% endblock %}

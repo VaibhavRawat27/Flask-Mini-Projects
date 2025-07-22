@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Latest Posts</h2>
+{% for post in posts %}
+<div class="card my-3">
+    <div class="card-body">
+        <h4><a href="{{ url_for('post', post_id=post.id) }}">{{ post.title }}</a></h4>
+        <p>{{ post.summary }}</p>
+        <small class="text-muted">
+            {{ post.timestamp.strftime("%d %B %Y, %I:%M %p") }}
+        </small>
+    </div>
+</div>
+{% else %}
+<p>No posts available.</p>
+{% endfor %}
+{% endblock %}

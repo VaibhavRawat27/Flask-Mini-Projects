@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Room {{ room_id }}</title>
+  <script src="https://cdn.socket.io/4.0.0/socket.io.min.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100">
+<div class="flex h-screen">
+  <!-- Sidebar -->
+  <div class="w-1/4 bg-white shadow p-4">
+    <h2 class="text-lg font-bold mb-1">Room: <span class="text-blue-500">{{ room_id }}</span></h2>
+    <h3 class="text-md font-semibold text-gray-800">{{ room_title }}</h3>
+    <p class="text-sm text-gray-600 mb-3">{{ room_desc }}</p>
+    
+    <h3 class="text-gray-700 mb-1 font-semibold">Active Users (<span id="user_count">0</span>)</h3>
+    <ul id="user_list" class="space-y-1 text-sm text-gray-800 mb-4"></ul>
+
+    <!-- ✅ Exit Button -->
+    <button onclick="exitRoom()"
+            class="bg-red-500 text-white w-full py-2 rounded hover:bg-red-600">
+      🚪 Exit Room
+    </button>
+  </div>
+
+  <!-- Chat Area -->
+  <div class="flex flex-col w-3/4 p-4">
+    <div id="messages" class="flex-1 overflow-y-auto bg-white p-3 rounded shadow mb-2"></div>
+
+    <div class="flex">
+      <input type="text" id="msg" placeholder="Type a message..."
+             class="flex-1 border rounded p-2 mr-2 focus:outline-blue-400">
+      <input type="file" id="fileInput" class="hidden" onchange="sendFile()">
+      <button onclick="document.getElementById('fileInput').click()"
+              class="bg-yellow-500 text-white px-3 rounded mr-2 hover:bg-yellow-600">📎</button>
+      <button onclick="sendMessage()" class="bg-blue-500 text-white px-4 rounded hover:bg-blue-600">Send</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  const socket = io();
+  const room = "{{ room_id }}";
+  let username = prompt("Enter your nickname:") || "Anonymous";
+
+  socket.emit("join", {username, room});
+
+  socket.on("message", data => {
+    const msgDiv = document.getElementById("messages");
+    if (data.system) {
+      msgDiv.innerHTML += `<p class="text-center text-gray-500 text-xs italic my-2">${data.msg}</p>`;
+    } else {
+      let content = "";
+      if (data.type === "file") {
+        const url = data.msg;
+        if (url.match(/\.(jpeg|jpg|png|gif)$/)) {
+          content = `<img src="${url}" class="max-w-xs rounded mt-1">`;
+        } else if (url.match(/\.(mp4|webm)$/)) {
+          content = `<video src="${url}" controls class="max-w-xs rounded mt-1"></video>`;
+        } else if (url.match(/\.(mp3|wav)$/)) {
+          content = `<audio controls src="${url}" class="mt-1"></audio>`;
+        } else {
+          content = `<a href="${url}" class="text-blue-600 underline" target="_blank">📄 Download File</a>`;
+        }
+      } else {
+        content = data.msg;
+      }
+
+      msgDiv.innerHTML += `
+        <div class="mb-3 ${data.username===username?'text-right':''}">
+          <div class="inline-block p-3 rounded-lg max-w-xs break-words 
+              ${data.username===username?'bg-blue-500 text-white mr-2':'bg-gray-200 text-black ml-2'}">
+            <strong class="text-xs block mb-1">${data.username}</strong>
+            <p class="text-sm">${content}</p>
+            <span class="text-[11px] block mt-1 ${data.username===username?'text-gray-200':'text-gray-500'}">
+              ${data.time}
+            </span>
+          </div>
+        </div>`;
+    }
+    msgDiv.scrollTop = msgDiv.scrollHeight;
+  });
+
+  socket.on("user_list", list => {
+    document.getElementById("user_count").innerText = list.length;
+    document.getElementById("user_list").innerHTML =
+        list.map((u,i)=>`<li>${i+1}. ${u}</li>`).join("");
+  });
+
+  function sendMessage() {
+    const message = document.getElementById("msg").value;
+    if (message.trim() !== "") {
+      socket.emit("message", {username, msg: message, room, type: "text"});
+      document.getElementById("msg").value = "";
+    }
+  }
+
+  async function sendFile() {
+    const fileInput = document.getElementById("fileInput");
+    const formData = new FormData();
+    formData.append("file", fileInput.files[0]);
+
+    const res = await fetch("/upload", {method: "POST", body: formData});
+    const data = await res.json();
+    socket.emit("message", {username, msg: data.file_url, room, type: "file"});
+  }
+
+  function exitRoom() {
+    const confirmExit = confirm("Do you really want to exit this room?");
+    if (confirmExit) {
+      socket.emit("leave", {username, room});
+      window.location.href = "/";
+    }
+  }
+
+  window.onbeforeunload = () => {
+    socket.emit("leave", {username, room});
+  }
+</script>
+</body>
+</html>

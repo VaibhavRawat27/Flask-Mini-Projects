@@ -18,9 +18,7 @@ It supports **drag & drop task management**, **multiple boards/notes**, and **re
 
 ## 📸 Screenshots
 
-### 🏠 Dashboard View  
-
-### ✏️ Drag & Drop  
+<img width="1365" height="598" alt="image" src="https://github.com/user-attachments/assets/d3124829-362b-4a19-852c-a05d976683e6" />
 
 ---
 

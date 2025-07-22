@@ -52,7 +52,9 @@ The app will start at **`http://127.0.0.1:5000/`**.
 
 ## 🖼️ Screenshots
 
-*(Add screenshots here later)*
+<img width="1347" height="625" alt="image" src="https://github.com/user-attachments/assets/7c30012f-2f09-4a88-9f44-72277c86fbaf" />
+
+<img width="1342" height="589" alt="image" src="https://github.com/user-attachments/assets/d38582c4-9ddd-4522-b159-b7db14336b3a" />
 
 ---
 

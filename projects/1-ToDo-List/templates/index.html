@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% block content %}
+<h2 class="text-center mb-4">To-Do Board</h2>
+
+<!-- Add Task Form -->
+<form id="addTaskForm" class="mb-3 d-flex gap-2">
+    <input type="text" name="title" class="form-control" placeholder="Task title" required>
+    <select name="priority" class="form-select">
+        <option>High</option>
+        <option selected>Medium</option>
+        <option>Low</option>
+    </select>
+    <input type="date" name="due_date" class="form-control">
+    <button class="btn btn-success">Add</button>
+</form>
+
+<div class="row">
+    <div class="col-md-4">
+        <h5>To Do</h5>
+        <div id="todo" class="task-column border rounded p-2">
+            {% for t in todo %}
+            <div class="task-card" data-id="{{ t.id }}">
+                <strong>{{ t.title }}</strong><br>
+                <small>Priority: {{ t.priority }}</small><br>
+                <small>Due: {{ t.due_date }}</small>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    <div class="col-md-4">
+        <h5>In Progress</h5>
+        <div id="progress" class="task-column border rounded p-2">
+            {% for t in progress %}
+            <div class="task-card" data-id="{{ t.id }}">
+                <strong>{{ t.title }}</strong><br>
+                <small>Priority: {{ t.priority }}</small><br>
+                <small>Due: {{ t.due_date }}</small>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    <div class="col-md-4">
+        <h5>Done</h5>
+        <div id="done" class="task-column border rounded p-2">
+            {% for t in done %}
+            <div class="task-card" data-id="{{ t.id }}">
+                <strong>{{ t.title }}</strong><br>
+                <small>Priority: {{ t.priority }}</small><br>
+                <small>Due: {{ t.due_date }}</small>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}

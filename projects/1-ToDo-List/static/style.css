@@ -1,0 +1,16 @@
+.task-column {
+    min-height: 300px;
+    background: #f8f9fa;
+}
+
+.task-card {
+    background: white;
+    border: 1px solid #ddd;
+    padding: 8px;
+    margin-bottom: 8px;
+    border-radius: 5px;
+    cursor: grab;
+}
+.task-card:hover {
+    background: #f1f1f1;
+}

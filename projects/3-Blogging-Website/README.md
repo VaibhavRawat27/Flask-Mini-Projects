@@ -20,10 +20,13 @@ It supports **admin-only blog management**, **rich text editing**, **draft & sch
 ## 📸 Screenshots
 
 ### 🏠 Public View  
-![Public View](https://via.placeholder.com/800x400?text=Public+Blog+View)
+<img width="1348" height="576" alt="image" src="https://github.com/user-attachments/assets/3e277e70-c376-43f0-900c-01fbd52ee457" />
+
 
 ### 🔐 Admin Dashboard  
-![Admin Dashboard](https://via.placeholder.com/800x400?text=Admin+Dashboard)
+<img width="1365" height="611" alt="image" src="https://github.com/user-attachments/assets/c962f5af-d99d-4bd2-9e8d-22bb98ff7728" />
+
+<img width="1350" height="617" alt="image" src="https://github.com/user-attachments/assets/32b3aa05-2fd7-4625-9bb3-b363c477a94f" />
 
 ---
 
